@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basil Shahzad | Video Editor, Motion Graphics Artist & AI Video Creator</title>
+  <meta name="description" content="Portfolio of Basil Shahzad — High-retention video editor, motion graphics artist, 3D animator, and AI video pipeline specialist. Crafting viral reels, cinematic documentaries, and programmatic animations.">
+  <meta name="keywords" content="Basil Shahzad, Video Editor, Motion Graphics, After Effects, Remotion, 3D Animation, AI Video, Documentary Editing, James Jani style, Blender, Short-Form Retention">
+  <meta name="author" content="Basil Shahzad">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Basil Shahzad | Elite Video Editor & Motion Graphics Specialist">
+  <meta property="og:description" content="Transforming raw vision into high-retention visual masterpieces. Explore viral reels, James Jani-grade cinematic documentaries, 3D CGI, and next-gen AI video pipelines.">
+  <meta property="og:image" content="assets/posters/poster-documentary.jpg">
+
+  <!-- Fonts: Syne (Bold Display), Space Grotesk (Tech Headings), Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#08080c',
+            crimson: '#ff2a5f',
+          },
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            tech: ['Space Grotesk', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-obsidian text-slate-100 antialiased selection:bg-rose-500 selection:text-white">
+
+  <!-- Cinematic Background Canvas -->
+  <canvas id="ambient-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+  <div class="film-grain"></div>
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Audio Toggle Feedback for Web Audio Synthesis -->
+  <div class="sound-toggle-badge" id="sfx-toggle" title="Toggle interactive UI sound effects">
+    <span class="sound-icon">🔊</span>
+    <span class="sound-text">SFX: ON</span>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="main-nav">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="#hero" class="nav-brand group flex items-center gap-3">
+        <div class="brand-monogram">
+          <span>BS</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="brand-name">BASIL SHAHZAD</span>
+          <span class="brand-tagline">VIDEO & MOTION ARCHITECT</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-1 glass-pill px-4 py-1.5">
+        <a href="#featured-reels" class="nav-link">Showcase</a>
+        <a href="#pillars" class="nav-link">Expertise</a>
+        <a href="#documentary-grid" class="nav-link">Projects</a>
+        <a href="#ai-pipeline" class="nav-link">AI & 3D</a>
+        <a href="#process" class="nav-link">Process</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <!-- Status & CTA -->
+      <div class="flex items-center gap-4">
+        <div class="hidden lg:flex items-center gap-2 status-pill">
+          <span class="status-dot"></span>
+          <span class="text-xs font-medium text-emerald-400">Available for Projects</span>
+        </div>
+        <a href="#contact" class="btn btn-primary btn-sm group">
+          <span>Book an Edit</span>
+          <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </a>
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-400 hover:text-white" aria-label="Toggle menu">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden glass-card mx-4 mt-2 p-4 flex flex-col gap-3 rounded-2xl">
+      <a href="#featured-reels" class="mobile-nav-link">Showcase</a>
+      <a href="#pillars" class="mobile-nav-link">Expertise</a>
+      <a href="#documentary-grid" class="mobile-nav-link">Projects</a>
+      <a href="#ai-pipeline" class="mobile-nav-link">AI & 3D Pipelines</a>
+      <a href="#process" class="mobile-nav-link">Process</a>
+      <a href="#contact" class="mobile-nav-link">Contact</a>
+    </div>
+  </header>
+
+  <main class="relative z-10">
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="min-h-screen pt-32 pb-20 flex flex-col justify-center relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <!-- Left Hero Content -->
+          <div class="lg:col-span-7 flex flex-col gap-6">
+            
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-400 text-xs font-semibold tracking-wider uppercase w-fit animate-pulse">
+              <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+              High-Retention Video Editing & Motion Graphics
+            </div>
+
+            <h1 class="hero-title text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05]">
+              Turning Raw Footage into <span class="text-gradient">Viral Masterpieces</span> & Cinematic Stories.
+            </h1>
+
+            <p class="text-lg sm:text-xl text-slate-300 max-w-2xl font-light leading-relaxed">
+              Hey, I'm <strong class="text-white font-semibold">Basil Shahzad</strong>. I craft high-retention short-form edits, James Jani-grade investigative documentaries, 3D motion graphics in Blender & Remotion, and cutting-edge AI-assisted video production workflows.
+            </p>
+
+            <!-- Dynamic Capabilities Ticker -->
+            <div class="ticker-box">
+              <span class="ticker-label">Specializing in:</span>
+              <span id="ticker-text" class="ticker-animated">Viral Hook Psychology</span>
+            </div>
+
+            <!-- CTAs -->
+            <div class="flex flex-wrap items-center gap-4 pt-4">
+              <a href="#featured-reels" class="btn btn-primary btn-lg">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+                </svg>
+                <span>Watch Featured Work</span>
+              </a>
+              <a href="#pillars" class="btn btn-secondary btn-lg">
+                <span>Explore Full Capabilities</span>
+              </a>
+            </div>
+
+            <!-- Hero Metrics / Badges -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 border-t border-slate-800/80">
+              <div class="stat-card">
+                <div class="stat-number">300M+</div>
+                <div class="stat-label">Organic Views Driven</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">85%+</div>
+                <div class="stat-label">Average Hook Retention</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">4K & 3D</div>
+                <div class="stat-label">Cinema Grade Fidelity</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">10x</div>
+                <div class="stat-label">AI Pipeline Acceleration</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Hero Visual / Interactive Teaser Card -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="hero-showreel-card group relative">
+              <div class="hero-card-glow"></div>
+              <div class="relative rounded-3xl overflow-hidden border border-slate-700/60 bg-slate-900/90 shadow-2xl p-3">
+                <div class="relative rounded-2xl overflow-hidden aspect-[9/14] max-h-[560px] bg-black">
+                  <video 
+                    id="hero-preview-video"
+                    src="assets/videos/short-form-retention.mp4" 
+                    poster="assets/posters/poster-short-form.jpg"
+                    muted 
+                    playsinline 
+                    loop 
+                    autoplay
+                    class="w-full h-full object-cover"
+                  ></video>
+                  
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30 pointer-events-none"></div>
+
+                  <!-- Overlay Badge -->
+                  <div class="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-auto">
+                    <span class="badge-live">
+                      <span class="pulse-dot"></span> LIVE EDIT PREVIEW
+                    </span>
+                    <button class="sound-quick-toggle" onclick="toggleHeroSound(this)">
+                      <span class="icon">🔇</span>
+                    </button>
+                  </div>
+
+                  <!-- Bottom Caption -->
+                  <div class="absolute bottom-4 left-4 right-4 flex flex-col gap-1 pointer-events-auto">
+                    <div class="flex items-center gap-2">
+                      <span class="tech-tag">Retention Cut</span>
+                      <span class="tech-tag">Kinetic Subtitles</span>
+                    </div>
+                    <h3 class="text-white text-base font-bold">Short-Form Audience Retention Reel</h3>
+                    <p class="text-xs text-slate-300">Frame-perfect kinetic typography, rotoscoped subject depth & punchy sound design.</p>
+                  </div>
+                </div>
+
+                <!-- Card Controls Bar -->
+                <div class="flex items-center justify-between p-3 pt-4 text-xs text-slate-400">
+                  <span class="flex items-center gap-1.5 font-mono">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 60 FPS • 1080p
+                  </span>
+                  <a href="#featured-reels" class="text-rose-400 hover:text-rose-300 font-semibold flex items-center gap-1">
+                    See All 3 Featured Masterpieces →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 1: THE 3 CORE FEATURED VIDEOS -->
+    <section id="featured-reels" class="py-24 relative border-t border-slate-800/60 bg-gradient-to-b from-transparent via-slate-950/60 to-transparent">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-500/30 bg-sky-500/10 text-sky-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            Direct Portfolio Showcase
+          </div>
+          <h2 class="section-heading text-3xl sm:text-5xl font-black">
+            The Three Pillars in Action
+          </h2>
+          <p class="text-slate-400 text-base sm:text-lg mt-4">
+            Watch the exact three showcase edits demonstrating short-form retention psychology, 2D kinetic character motion, and long-form archival documentary storytelling. Hover or tap to play with sound!
+          </p>
+        </div>
+
+        <!-- 3-Video Vertical Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+          <!-- VIDEO 1: Short-Form Viral Retention -->
+          <div class="video-showcase-card group" data-category="short-form">
+            <div class="video-wrapper aspect-[9/16] relative rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 group-hover:border-rose-500/60 transition-all duration-300">
+              <video 
+                class="portfolio-video" 
+                src="assets/videos/short-form-retention.mp4" 
+                poster="assets/posters/poster-short-form.jpg"
+                muted 
+                playsinline 
+                loop
+                preload="metadata"
+              ></video>
+
+              <!-- Video UI Overlay -->
+              <div class="video-overlay flex flex-col justify-between p-5 pointer-events-none">
+                <div class="flex items-center justify-between">
+                  <span class="badge-category bg-rose-500/20 text-rose-300 border border-rose-500/40">Viral Short-Form</span>
+                  <button class="card-sound-btn pointer-events-auto" title="Click to mute/unmute" onclick="toggleCardAudio(this, event)">
+                    🔇
+                  </button>
+                </div>
+
+                <div class="overlay-play-hint">
+                  <div class="play-circle">
+                    <svg class="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+                    </svg>
+                  </div>
+                  <span class="text-xs text-white/80 font-mono mt-2">Hover to Play • Tap for Audio</span>
+                </div>
+
+                <div class="video-meta pointer-events-auto">
+                  <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+                    <span class="pill-mini">Retention Hooks</span>
+                    <span class="pill-mini">Kinetic Subtitles</span>
+                    <span class="pill-mini">Subject Masking</span>
+                  </div>
+                  <h3 class="text-lg font-bold text-white">Talking-Head Hook & Retention Cut</h3>
+                  <p class="text-xs text-slate-300 line-clamp-2 mt-1">High-converting viral editing with layered typography behind speaker, fast zooms, dynamic grading, and zero fluff.</p>
+                </div>
+              </div>
+
+              <!-- Progress Bar -->
+              <div class="video-progress-bar"><div class="progress-fill"></div></div>
+            </div>
+
+            <!-- Card Technical Teardown -->
+            <div class="mt-4 p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
+                <span>DURATION: 16.9s</span>
+                <span class="text-rose-400">RETENTION: 88%</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                <strong>Core Technique:</strong> Utilizes synchronized 3-color keyword highlight subtitles, rotoscoping the speaker to place kinetic typography in 3D depth, and pattern interrupt zooms every 2.4 seconds to eliminate drop-off.
+              </p>
+              <button class="mt-3 text-xs text-rose-400 hover:text-rose-300 font-semibold flex items-center gap-1" onclick="openTheater('assets/videos/short-form-retention.mp4', 'Talking-Head Hook & Retention Cut', 'Short-Form Viral Retention', 'Utilizes synchronized 3-color keyword highlight subtitles, rotoscoping the speaker to place kinetic typography in 3D depth, and pattern interrupt zooms every 2.4 seconds to eliminate drop-off.')">
+                Open in Cinema Theater ↗
+              </button>
+            </div>
+          </div>
+
+          <!-- VIDEO 2: Kinetic Typography & Neon Character Animation -->
+          <div class="video-showcase-card group" data-category="motion-graphics">
+            <div class="video-wrapper aspect-[9/16] relative rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 group-hover:border-amber-500/60 transition-all duration-300">
+              <video 
+                class="portfolio-video" 
+                src="assets/videos/kinetic-typography.mp4" 
+                poster="assets/posters/poster-kinetic.jpg"
+                muted 
+                playsinline 
+                loop
+                preload="metadata"
+              ></video>
+
+              <!-- Video UI Overlay -->
+              <div class="video-overlay flex flex-col justify-between p-5 pointer-events-none">
+                <div class="flex items-center justify-between">
+                  <span class="badge-category bg-amber-500/20 text-amber-300 border border-amber-500/40">Kinetic Motion</span>
+                  <button class="card-sound-btn pointer-events-auto" title="Click to mute/unmute" onclick="toggleCardAudio(this, event)">
+                    🔇
+                  </button>
+                </div>
+
+                <div class="overlay-play-hint">
+                  <div class="play-circle">
+                    <svg class="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+                    </svg>
+                  </div>
+                  <span class="text-xs text-white/80 font-mono mt-2">Hover to Play • Tap for Audio</span>
+                </div>
+
+                <div class="video-meta pointer-events-auto">
+                  <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+                    <span class="pill-mini">2D Character</span>
+                    <span class="pill-mini">Kinetic Type</span>
+                    <span class="pill-mini">Sound Sync</span>
+                  </div>
+                  <h3 class="text-lg font-bold text-white">Expressive Kinetic Typography & Motion</h3>
+                  <p class="text-xs text-slate-300 line-clamp-2 mt-1">Bold crimson & white stylized character animation with ultra-fast kinetic typography designed for maximum instant impact.</p>
+                </div>
+              </div>
+
+              <!-- Progress Bar -->
+              <div class="video-progress-bar"><div class="progress-fill"></div></div>
+            </div>
+
+            <!-- Card Technical Teardown -->
+            <div class="mt-4 p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
+                <span>DURATION: 11.1s</span>
+                <span class="text-amber-400">FRAME RATE: 60 FPS</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                <strong>Core Technique:</strong> Vector character rigging with exaggerated bezier curve motion, custom glow shading, bold type transitions, and hard sync to impactful sound cues for maximum punch.
+              </p>
+              <button class="mt-3 text-xs text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1" onclick="openTheater('assets/videos/kinetic-typography.mp4', 'Expressive Kinetic Typography & Motion', 'Kinetic Motion Graphics', 'Vector character rigging with exaggerated bezier curve motion, custom glow shading, bold type transitions, and hard sync to impactful sound cues for maximum punch.')">
+                Open in Cinema Theater ↗
+              </button>
+            </div>
+          </div>
+
+          <!-- VIDEO 3: Historical & Investigative Documentary -->
+          <div class="video-showcase-card group" data-category="documentary">
+            <div class="video-wrapper aspect-[9/16] relative rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 group-hover:border-cyan-500/60 transition-all duration-300">
+              <video 
+                class="portfolio-video" 
+                src="assets/videos/cinematic-documentary.mp4" 
+                poster="assets/posters/poster-documentary.jpg"
+                muted 
+                playsinline 
+                loop
+                preload="metadata"
+              ></video>
+
+              <!-- Video UI Overlay -->
+              <div class="video-overlay flex flex-col justify-between p-5 pointer-events-none">
+                <div class="flex items-center justify-between">
+                  <span class="badge-category bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">Cinematic Documentary</span>
+                  <button class="card-sound-btn pointer-events-auto" title="Click to mute/unmute" onclick="toggleCardAudio(this, event)">
+                    🔇
+                  </button>
+                </div>
+
+                <div class="overlay-play-hint">
+                  <div class="play-circle">
+                    <svg class="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+                    </svg>
+                  </div>
+                  <span class="text-xs text-white/80 font-mono mt-2">Hover to Play • Tap for Audio</span>
+                </div>
+
+                <div class="video-meta pointer-events-auto">
+                  <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+                    <span class="pill-mini">2.5D Parallax</span>
+                    <span class="pill-mini">Archival Grade</span>
+                    <span class="pill-mini">Ember VFX</span>
+                  </div>
+                  <h3 class="text-lg font-bold text-white">The Blitz & Pearl Harbor Documentary</h3>
+                  <p class="text-xs text-slate-300 line-clamp-2 mt-1">James Jani-grade historical documentary storytelling with 3D camera projection, archival footage restoration, and tactile sound design.</p>
+                </div>
+              </div>
+
+              <!-- Progress Bar -->
+              <div class="video-progress-bar"><div class="progress-fill"></div></div>
+            </div>
+
+            <!-- Card Technical Teardown -->
+            <div class="mt-4 p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
+                <span>DURATION: 30.0s</span>
+                <span class="text-cyan-400">RESOLUTION: 1080x1920</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                <strong>Core Technique:</strong> Separates historical archival photography into foreground/background depth planes, projects through a 3D camera with atmospheric smoke & ember particles, styled with military timecode HUDs.
+              </p>
+              <button class="mt-3 text-xs text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-1" onclick="openTheater('assets/videos/cinematic-documentary.mp4', 'The Blitz & Pearl Harbor Documentary', 'Cinematic Documentary', 'Separates historical archival photography into foreground/background depth planes, projects through a 3D camera with atmospheric smoke & ember particles, styled with military timecode HUDs.')">
+                Open in Cinema Theater ↗
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: THE 5 DEEP-DIVE CAPABILITY PILLARS -->
+    <section id="pillars" class="py-24 relative border-t border-slate-800/60">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-20">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            End-To-End Craftsmanship
+          </div>
+          <h2 class="section-heading text-3xl sm:text-5xl font-black">
+            The 5 Pillars of Mastery
+          </h2>
+          <p class="text-slate-400 text-base sm:text-lg mt-4">
+            Every layer of modern video creation dissected: from viral hook retention to 3D GIS simulation, Remotion code animations, and developer-grade AI automated pipelines.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-12">
+
+          <!-- PILLAR 1: Video Editing & Retention Engineering -->
+          <div class="pillar-card grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-8 sm:p-12 rounded-3xl bg-slate-900/60 border border-slate-800 hover:border-rose-500/40 transition-all">
+            <div class="lg:col-span-6 flex flex-col gap-4">
+              <div class="flex items-center gap-3">
+                <span class="pillar-badge bg-rose-500/20 text-rose-400 border border-rose-500/30">01</span>
+                <span class="text-xs uppercase tracking-widest text-slate-400 font-mono">RETENTION & PACING</span>
+              </div>
+              <h3 class="text-2xl sm:text-4xl font-extrabold text-white">Video Editing & Audience Psychology</h3>
+              <p class="text-slate-300 leading-relaxed">
+                Great video editing is not just cutting clips—it is the engineering of human attention. Every cut, transition, and pause is calibrated according to viewer drop-off metrics and pattern interrupt theory.
+              </p>
+
+              <div class="space-y-3 pt-2">
+                <div class="feature-item">
+                  <span class="feature-check text-rose-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">The 3-Second Hook Architecture</h4>
+                    <p class="text-xs text-slate-400">Visual, sonic, and curiosity-driven hooks engineered to stop the scroll on TikTok, Reels, and YouTube Shorts.</p>
+                  </div>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-check text-rose-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">Long-Form Story Pacing (James Jani & Vox Grade)</h4>
+                    <p class="text-xs text-slate-400">Multi-act narrative structuring for 15–60 minute deep dives, chapter transitions, retention resets, and tension curves.</p>
+                  </div>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-check text-rose-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">Cinema-Grade Color Grading</h4>
+                    <p class="text-xs text-slate-400">DaVinci Resolve color pipeline, Kodak 2383 film stock emulation, balanced skin tones, and moody contrast control.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-6">
+              <div class="rounded-2xl p-6 bg-slate-950/80 border border-slate-800/80 space-y-4">
+                <div class="flex items-center justify-between text-xs font-mono text-slate-400 pb-3 border-b border-slate-800">
+                  <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> RETENTION BENCHMARK</span>
+                  <span>PREMIERE & DAVINCI RESOLVE</span>
+                </div>
+                <div class="space-y-3 text-xs">
+                  <div>
+                    <div class="flex justify-between text-slate-300 mb-1">
+                      <span>Average 30s Short-Form Retention</span>
+                      <span class="text-rose-400 font-bold">87.4%</span>
+                    </div>
+                    <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden"><div class="h-full bg-rose-500 rounded-full" style="width: 87.4%"></div></div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-slate-300 mb-1">
+                      <span>Long-Form Average View Duration (AVD)</span>
+                      <span class="text-rose-400 font-bold">64.2% (18 Min Doc)</span>
+                    </div>
+                    <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden"><div class="h-full bg-rose-500 rounded-full" style="width: 64.2%"></div></div>
+                  </div>
+                  <div>
+                    <div class="flex justify-between text-slate-300 mb-1">
+                      <span>Click-Through Rate (CTR) Thumbnail Optimization</span>
+                      <span class="text-rose-400 font-bold">11.8% Peak</span>
+                    </div>
+                    <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden"><div class="h-full bg-rose-500 rounded-full" style="width: 78%"></div></div>
+                  </div>
+                </div>
+                <div class="p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-[11px] text-rose-300">
+                  💡 <em>"Every 2.5 to 3.5 seconds, we apply a pattern interrupt: a scale punch, an SFX swell, a rotoscoped overlay, or a B-roll cut to keep dopamine levels firing."</em>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PILLAR 2: Motion Graphics & Kinetic Typography -->
+          <div class="pillar-card grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-8 sm:p-12 rounded-3xl bg-slate-900/60 border border-slate-800 hover:border-amber-500/40 transition-all">
+            <div class="lg:col-span-6 flex flex-col gap-4">
+              <div class="flex items-center gap-3">
+                <span class="pillar-badge bg-amber-500/20 text-amber-400 border border-amber-500/30">02</span>
+                <span class="text-xs uppercase tracking-widest text-slate-400 font-mono">DYNAMIC VISUALS</span>
+              </div>
+              <h3 class="text-2xl sm:text-4xl font-extrabold text-white">Motion Graphics & Kinetic Typography</h3>
+              <p class="text-slate-300 leading-relaxed">
+                Motion graphics that don't just look pretty—they drive narrative comprehension. From high-contrast editorial bold titles to seamless 2.5D camera maps, every pixel is animated with intention.
+              </p>
+
+              <div class="space-y-3 pt-2">
+                <div class="feature-item">
+                  <span class="feature-check text-amber-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">2.5D Archival Photo Parallax & Projection</h4>
+                    <p class="text-xs text-slate-400">Breathing cinematic life into vintage photographs with depth maps, foreground separation, camera fly-throughs, and particulate air smoke.</p>
+                  </div>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-check text-amber-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">Kinetic Typography with Fluid Easing</h4>
+                    <p class="text-xs text-slate-400">Hand-tuned cubic beziers, bouncy springs, glowing edge highlights, and rhythmically synchronized letterform reveals.</p>
+                  </div>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-check text-amber-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">Broadcast Lower Thirds & Tactical HUDs</h4>
+                    <p class="text-xs text-slate-400">Glassmorphic telemetry, military coordinates, document redactions, and news-grade breaking news ribbons.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-6">
+              <div class="rounded-2xl p-6 bg-slate-950/80 border border-slate-800/80 space-y-4">
+                <div class="flex items-center justify-between text-xs font-mono text-slate-400 pb-3 border-b border-slate-800">
+                  <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> AFTER EFFECTS & BLENDER</span>
+                  <span>MOTION ENGINE</span>
+                </div>
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                  <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+                    <span class="text-amber-400 font-bold block mb-1">Cubic Bezier Easing</span>
+                    <span class="text-slate-400">Zero linear default keyframes. Custom graph editor curves with heavy ease-out cushions.</span>
+                  </div>
+                  <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+                    <span class="text-amber-400 font-bold block mb-1">Depth of Field & Bokeh</span>
+                    <span class="text-slate-400">Physical optical camera blurs, anamorphic flare simulation, and realistic lens distortion.</span>
+                  </div>
+                  <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+                    <span class="text-amber-400 font-bold block mb-1">Rotoscoped Stacking</span>
+                    <span class="text-slate-400">Layering typography between subject foreground and scene background for 3D immersion.</span>
+                  </div>
+                  <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+                    <span class="text-amber-400 font-bold block mb-1">Particle Simulation</span>
+                    <span class="text-slate-400">Ember fields, dust motes, rain streaks, and atmospheric haze calibrated per scene mood.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PILLAR 3: 3D Animation & Coded Motion -->
+          <div class="pillar-card grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-8 sm:p-12 rounded-3xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/40 transition-all">
+            <div class="lg:col-span-6 flex flex-col gap-4">
+              <div class="flex items-center gap-3">
+                <span class="pillar-badge bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">03</span>
+                <span class="text-xs uppercase tracking-widest text-slate-400 font-mono">3D & PROGRAMMATIC ANIMATION</span>
+              </div>
+              <h3 class="text-2xl sm:text-4xl font-extrabold text-white">3D CGI & Coded Motion Pipelines</h3>
+              <p class="text-slate-300 leading-relaxed">
+                Where technical precision meets artistic polish. Building 3D terrain cross-sections in Blender and programmatic, pixel-perfect financial data charts using Remotion (React / TypeScript).
+              </p>
+
+              <div class="space-y-3 pt-2">
+                <div class="feature-item">
+                  <span class="feature-check text-cyan-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">3D GIS & Geological Bathymetry (The Hydraulic Record)</h4>
+                    <p class="text-xs text-slate-400">Accurate geological 3D cross-sections (e.g., Glen Canyon dam reservoir water-level depletion models) rendered in Blender.</p>
+                  </div>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-check text-cyan-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">Apple & Anthropic Grade Clean Data Motion</h4>
+                    <p class="text-xs text-slate-400">Minimalistic, ultra-refined typography, generous whitespace, and calm motion curves inspired by Claude product commercials.</p>
+                  </div>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-check text-cyan-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">Code-Driven Remotion Rendering</h4>
+                    <p class="text-xs text-slate-400">Interactive financial exhibits, yield curve movements, treasury return charts rendered programmatically with zero artifacts.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-6">
+              <div class="rounded-2xl p-6 bg-slate-950/80 border border-slate-800/80 space-y-4">
+                <div class="flex items-center justify-between text-xs font-mono text-slate-400 pb-3 border-b border-slate-800">
+                  <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-cyan-500"></span> REMOTION & BLENDER</span>
+                  <span>CODE-DRIVEN RENDERS</span>
+                </div>
+                <div class="rounded-xl overflow-hidden border border-slate-800">
+                  <img src="assets/showcase/blender-3d-glen.png" alt="Blender 3D Glen Canyon Bathymetric Dam Render" class="w-full h-44 object-cover">
+                </div>
+                <div class="flex items-center justify-between text-xs text-slate-300 font-mono">
+                  <span>Glen Canyon 3D Elevation Cut</span>
+                  <span class="text-cyan-400 font-bold">Blender 4K Cycles</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PILLAR 4: AI Video Creation & Next-Gen Workflows -->
+          <div class="pillar-card grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-8 sm:p-12 rounded-3xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/40 transition-all">
+            <div class="lg:col-span-6 flex flex-col gap-4">
+              <div class="flex items-center gap-3">
+                <span class="pillar-badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">04</span>
+                <span class="text-xs uppercase tracking-widest text-slate-400 font-mono">SYNTHETIC MEDIA</span>
+              </div>
+              <h3 class="text-2xl sm:text-4xl font-extrabold text-white">AI Video Creations & Generative Workflows</h3>
+              <p class="text-slate-300 leading-relaxed">
+                Leveraging artificial intelligence not to replace taste, but to superpower execution. Seamlessly integrating photorealistic avatars, generative B-roll, and ultra-natural speech synthesis into cohesive productions.
+              </p>
+
+              <div class="space-y-3 pt-2">
+                <div class="feature-item">
+                  <span class="feature-check text-emerald-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">Photorealistic AI Avatars (HeyGen & Seedance)</h4>
+                    <p class="text-xs text-slate-400">Studio-lit AI presenter integration with flawless lip synchronization, micro-head gestures, and natural pacing.</p>
+                  </div>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-check text-emerald-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">Cinematic Generative B-Roll (Runway Gen-3, Midjourney & Luma)</h4>
+                    <p class="text-xs text-slate-400">Custom-prompted cinematic scenes when archival footage is unavailable, upscaled and graded to match live documentary stock.</p>
+                  </div>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-check text-emerald-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">Voice Synthesis & Automatic SRT Alignment</h4>
+                    <p class="text-xs text-slate-400">ElevenLabs voice cloning and custom audio mastering paired with OpenAI Whisper for millisecond-accurate word timing.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-6">
+              <div class="rounded-2xl p-6 bg-slate-950/80 border border-slate-800/80 space-y-4">
+                <div class="flex items-center justify-between text-xs font-mono text-slate-400 pb-3 border-b border-slate-800">
+                  <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> AI VIDEO STACK</span>
+                  <span>MULTI-MODEL PIPELINE</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2 text-center text-xs font-mono">
+                  <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+                    <span class="text-emerald-400 font-bold block text-sm">HeyGen</span>
+                    <span class="text-[10px] text-slate-400">Avatar Sync</span>
+                  </div>
+                  <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+                    <span class="text-emerald-400 font-bold block text-sm">Runway Gen-3</span>
+                    <span class="text-[10px] text-slate-400">B-Roll Synthesizer</span>
+                  </div>
+                  <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+                    <span class="text-emerald-400 font-bold block text-sm">ElevenLabs</span>
+                    <span class="text-[10px] text-slate-400">Vocal Master</span>
+                  </div>
+                </div>
+                <div class="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-300">
+                  ⚡ <em>"We apply an 'Anti-AI Look Checklist': 35mm grain matching, chromatic aberration, shutter speed naturalization, and authentic sound design so viewers never spot the AI."</em>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PILLAR 5: Developer-Grade Video Pipeline Automation -->
+          <div class="pillar-card grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-8 sm:p-12 rounded-3xl bg-slate-900/60 border border-slate-800 hover:border-purple-500/40 transition-all">
+            <div class="lg:col-span-6 flex flex-col gap-4">
+              <div class="flex items-center gap-3">
+                <span class="pillar-badge bg-purple-500/20 text-purple-400 border border-purple-500/30">05</span>
+                <span class="text-xs uppercase tracking-widest text-slate-400 font-mono">AUTOMATED PIPELINE</span>
+              </div>
+              <h3 class="text-2xl sm:text-4xl font-extrabold text-white">Custom Timeline Generation & Automation</h3>
+              <p class="text-slate-300 leading-relaxed">
+                What sets Basil apart from standard video editors: custom developer tooling. Using Python and <code class="text-purple-300 font-mono">pycapcut</code>, I auto-assemble timelines from scripts and SRTs, eliminating 80% of repetitive assembly work.
+              </p>
+
+              <div class="space-y-3 pt-2">
+                <div class="feature-item">
+                  <span class="feature-check text-purple-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">Deterministic CapCut Draft Generation (<code class="text-xs">build_draft.py</code>)</h4>
+                    <p class="text-xs text-slate-400">Takes voiceover audio, auto-segments into scenes, and generates ready-to-polish NLE project files automatically.</p>
+                  </div>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-check text-purple-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">Whisper SRT to Media Placement Engine</h4>
+                    <p class="text-xs text-slate-400">Matches script keywords to B-roll folders, auto-scales image aspect ratios, and fits chart timing to vocal pauses.</p>
+                  </div>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-check text-purple-400">✓</span>
+                  <div>
+                    <h4 class="font-bold text-white text-sm">Batch GPU NVENC Rendering</h4>
+                    <p class="text-xs text-slate-400">High-speed hardware-accelerated video rendering pipelines with deterministic color space flags.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-6">
+              <div class="rounded-2xl p-6 bg-slate-950/80 border border-slate-800/80 space-y-4">
+                <div class="flex items-center justify-between text-xs font-mono text-slate-400 pb-3 border-b border-slate-800">
+                  <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> PYTHON VIDEO PIPELINE</span>
+                  <span>AUTOMATED STACK</span>
+                </div>
+                <div class="bg-black/90 p-4 rounded-xl font-mono text-xs text-purple-300/90 overflow-x-auto space-y-1 border border-purple-500/20">
+                  <div class="text-slate-500"># Automated CapCut timeline assembly</div>
+                  <div>$ python build_draft.py \</div>
+                  <div class="pl-4 text-emerald-400">--audio voiceover.wav \</div>
+                  <div class="pl-4 text-sky-400">--srt transcript.srt \</div>
+                  <div class="pl-4 text-amber-400">--placements placements.json \</div>
+                  <div class="pl-4 text-rose-400">--out-draft "Ep14_Final_Cut"</div>
+                  <div class="text-slate-400 pt-2">✓ Timeline generated in 4.2s (48 clips synced)</div>
+                </div>
+                <p class="text-xs text-slate-400">
+                  This proprietary automation allows rapid weekly turnarounds without compromising on bespoke artistic polish.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 3: EXPANDED DOCUMENTARY & MOTION GALLERY -->
+    <section id="documentary-grid" class="py-24 relative border-t border-slate-800/60 bg-slate-950/40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-500/30 bg-sky-500/10 text-sky-400 text-xs font-semibold uppercase tracking-wider mb-4">
+              Project Archive
+            </div>
+            <h2 class="section-heading text-3xl sm:text-5xl font-black">
+              Featured Productions & Case Studies
+            </h2>
+          </div>
+          <p class="text-slate-400 text-sm max-w-md mt-4 md:mt-0">
+            A deeper look into long-form documentaries, 3D modeling, broadcast news packages, and financial animation suites.
+          </p>
+        </div>
+
+        <!-- 4-Card Case Study Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+          <!-- PROJECT 1: Long-Form Military Tech Documentary -->
+          <div class="project-card group rounded-2xl overflow-hidden bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all">
+            <div class="relative aspect-video overflow-hidden bg-black">
+              <img src="assets/showcase/documentary-military-drone.jpg" alt="Dragon Drones Master Documentary" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div class="absolute top-4 left-4">
+                <span class="badge-category bg-red-500/20 text-red-300 border border-red-500/40">18-Min Master Doc</span>
+              </div>
+              <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                <span class="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 2.8M Views • YouTube Master
+                </span>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-white group-hover:text-rose-400 transition-colors">Dragon Drones & Modern Warfare Tech</h3>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                Comprehensive 18-minute master cut analyzing tactical drone warfare. Combines satellite map cartography, real-time tactical tracking overlays, combat footage color restoration, and intense audio mastering.
+              </p>
+              <div class="flex items-center gap-2 mt-4 flex-wrap">
+                <span class="pill-mini">Cartography</span>
+                <span class="pill-mini">Sound Design</span>
+                <span class="pill-mini">Pacing Strategy</span>
+                <span class="pill-mini">DaVinci Resolve</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROJECT 2: The Hydraulic Record - 3D Bathymetry -->
+          <div class="project-card group rounded-2xl overflow-hidden bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all">
+            <div class="relative aspect-video overflow-hidden bg-black">
+              <img src="assets/showcase/blender-3d-glen.png" alt="The Hydraulic Record 3D Glen Canyon Dam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div class="absolute top-4 left-4">
+                <span class="badge-category bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">3D Simulation</span>
+              </div>
+              <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                <span class="text-xs font-mono text-cyan-400 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-cyan-400"></span> Blender Cycles • 4K Renders
+                </span>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">The Hydraulic Record: Glen Canyon 3D Elevation</h3>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                Geological 3D visualization illustrating historical water depletion and bathymetric elevation drops across Glen Canyon Dam. Built from real USGS terrain data and rendered with realistic lighting in Blender.
+              </p>
+              <div class="flex items-center gap-2 mt-4 flex-wrap">
+                <span class="pill-mini">Blender 3D</span>
+                <span class="pill-mini">GIS Terrain</span>
+                <span class="pill-mini">Camera Flythrough</span>
+                <span class="pill-mini">Documentary VFX</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROJECT 3: Financial Animation Pipeline (@TheRealSourceCode) -->
+          <div class="project-card group rounded-2xl overflow-hidden bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all">
+            <div class="relative aspect-video overflow-hidden bg-black">
+              <img src="assets/showcase/remotion-finance-data.jpg" alt="Financial Remotion Data Graphics" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div class="absolute top-4 left-4">
+                <span class="badge-category bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Coded Motion</span>
+              </div>
+              <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                <span class="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Remotion • React & TypeScript
+                </span>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">Apple-Grade Financial & Treasury Data Motion</h3>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                Programmatic motion graphics designed with Anthropic and Apple design bibles: generous negative space, refined typography, smooth spring curves, and deterministic chart animations for financial channels.
+              </p>
+              <div class="flex items-center gap-2 mt-4 flex-wrap">
+                <span class="pill-mini">Remotion</span>
+                <span class="pill-mini">React.js</span>
+                <span class="pill-mini">Data Visualization</span>
+                <span class="pill-mini">Anthropic Aesthetic</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROJECT 4: International Weather Network Broadcast Package -->
+          <div class="project-card group rounded-2xl overflow-hidden bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all">
+            <div class="relative aspect-video overflow-hidden bg-black">
+              <img src="assets/showcase/broadcast-iwn-earthquake.png" alt="Broadcast News Package" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div class="absolute top-4 left-4">
+                <span class="badge-category bg-purple-500/20 text-purple-300 border border-purple-500/40">Broadcast Package</span>
+              </div>
+              <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                <span class="text-xs font-mono text-purple-400 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-purple-400"></span> Live Lower Thirds • Event HUDs
+                </span>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-white group-hover:text-purple-400 transition-colors">International Weather Network (IWN) Broadcast System</h3>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                Full visual identity package for live news and natural disaster coverage. Features dynamic lower-third tickers, seismic magnitude telemetry, location badges, and multi-window live feed overlays.
+              </p>
+              <div class="flex items-center gap-2 mt-4 flex-wrap">
+                <span class="pill-mini">Lower Thirds</span>
+                <span class="pill-mini">Broadcast HUD</span>
+                <span class="pill-mini">Seismic Telemetry</span>
+                <span class="pill-mini">After Effects</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 4: THE 4-STEP PRODUCTION WORKFLOW -->
+    <section id="process" class="py-24 relative border-t border-slate-800/60">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            Flawless Execution
+          </div>
+          <h2 class="section-heading text-3xl sm:text-5xl font-black">
+            The Production Blueprint
+          </h2>
+          <p class="text-slate-400 text-base sm:text-lg mt-4">
+            From raw script to viral publish. A deterministic, creative pipeline that ensures top-tier quality every single time.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          
+          <div class="step-card p-6 rounded-2xl bg-slate-900/60 border border-slate-800 relative">
+            <div class="step-num text-rose-500">01</div>
+            <h3 class="text-lg font-bold text-white mt-2">Script & Hook Breakdown</h3>
+            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+              Analyzing the script for pacing arcs, retention hooks, and emotional beats. Defining the visual motif, color palette, and pattern interrupt intervals.
+            </p>
+          </div>
+
+          <div class="step-card p-6 rounded-2xl bg-slate-900/60 border border-slate-800 relative">
+            <div class="step-num text-amber-500">02</div>
+            <h3 class="text-lg font-bold text-white mt-2">Asset Synthesis & 3D Prep</h3>
+            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+              Curating archival photography, generating 3D models in Blender, rendering Remotion charts, and synthesizing custom AI B-roll or avatars.
+            </p>
+          </div>
+
+          <div class="step-card p-6 rounded-2xl bg-slate-900/60 border border-slate-800 relative">
+            <div class="step-num text-cyan-500">03</div>
+            <h3 class="text-lg font-bold text-white mt-2">The Editorial Cut & Motion</h3>
+            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+              Precise timeline assembly, kinetic typography synchronization, 2.5D camera parallax projection, rotoscoping, and seamless visual transitions.
+            </p>
+          </div>
+
+          <div class="step-card p-6 rounded-2xl bg-slate-900/60 border border-slate-800 relative">
+            <div class="step-num text-emerald-500">04</div>
+            <h3 class="text-lg font-bold text-white mt-2">Sound Design & Master Grade</h3>
+            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+              Layered foley sound design (whooshes, impacts, textural atmospheric rumble), vocal equalization, and DaVinci cinema color grading for the final export.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 5: THE CREATIVE ARSENAL / TECH STACK -->
+    <section id="arsenal" class="py-20 relative border-t border-slate-800/60 bg-slate-950/50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        
+        <h2 class="text-sm font-mono tracking-widest text-slate-400 uppercase mb-8">
+          The Creative & Technical Arsenal
+        </h2>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 max-w-4xl mx-auto">
+          <span class="tool-chip">🎬 Adobe Premiere Pro</span>
+          <span class="tool-chip">⚡ After Effects</span>
+          <span class="tool-chip">🎨 DaVinci Resolve Studio</span>
+          <span class="tool-chip">🧊 Blender 3D</span>
+          <span class="tool-chip">⚛️ Remotion (React / TS)</span>
+          <span class="tool-chip">📱 CapCut Pro</span>
+          <span class="tool-chip">🖼️ Adobe Photoshop</span>
+          <span class="tool-chip">✒️ Adobe Illustrator</span>
+          <span class="tool-chip">🤖 HeyGen AI Avatars</span>
+          <span class="tool-chip">🎙️ ElevenLabs Vocal Engine</span>
+          <span class="tool-chip">🌌 Runway Gen-3</span>
+          <span class="tool-chip">🐍 Python & pycapcut</span>
+          <span class="tool-chip">👂 OpenAI Whisper</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 6: CONTACT & BOOKING -->
+    <section id="contact" class="py-24 relative border-t border-slate-800/60">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-6">
+          Ready for New Collaborations
+        </div>
+
+        <h2 class="text-3xl sm:text-6xl font-extrabold text-white tracking-tight mb-6">
+          Let's Make Your Next Video <span class="text-gradient">Unforgettable</span>.
+        </h2>
+
+        <p class="text-slate-300 text-base sm:text-xl font-light mb-10 max-w-2xl mx-auto">
+          Whether you need viral short-form retention edits, a cinematic multi-part documentary series, or custom 3D and AI video automation—I'm ready to bring the vision to life.
+        </p>
+
+        <!-- Direct Contact Action Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
+          
+          <a href="mailto:zaeemrana168@gmail.com?subject=Video%20Editing%20Inquiry%20-%20Basil%20Shahzad" class="contact-card p-6 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-rose-500/50 transition-all text-center flex flex-col items-center gap-2 group">
+            <span class="text-3xl mb-1">✉️</span>
+            <span class="font-bold text-white text-base group-hover:text-rose-400">Direct Email</span>
+            <span class="text-xs text-slate-400">Inquire via Inbox</span>
+            <span class="text-xs text-rose-400 font-mono mt-1">zaeemrana168@gmail.com</span>
+          </a>
+
+          <a href="https://wa.me/?text=Hi%20Basil,%20I%20saw%20your%20video%20editing%20portfolio%20and%20want%20to%20discuss%20a%20project!" target="_blank" class="contact-card p-6 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-emerald-500/50 transition-all text-center flex flex-col items-center gap-2 group">
+            <span class="text-3xl mb-1">💬</span>
+            <span class="font-bold text-white text-base group-hover:text-emerald-400">WhatsApp Chat</span>
+            <span class="text-xs text-slate-400">Fast Turnaround Discussions</span>
+            <span class="text-xs text-emerald-400 font-mono mt-1">Send Instant Message →</span>
+          </a>
+
+          <a href="#featured-reels" class="contact-card p-6 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 transition-all text-center flex flex-col items-center gap-2 group">
+            <span class="text-3xl mb-1">🚀</span>
+            <span class="font-bold text-white text-base group-hover:text-cyan-400">Project Retainer</span>
+            <span class="text-xs text-slate-400">Weekly Channel Lead</span>
+            <span class="text-xs text-cyan-400 font-mono mt-1">Book Monthly Slot →</span>
+          </a>
+
+        </div>
+
+        <!-- Quick Form Modal / Trigger -->
+        <div class="glass-card p-8 rounded-3xl max-w-xl mx-auto border border-slate-800 text-left">
+          <h3 class="text-lg font-bold text-white mb-4 flex items-center justify-between">
+            <span>Send a Project Brief</span>
+            <span class="text-xs font-mono text-slate-400">Response within 24h</span>
+          </h3>
+
+          <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-mono text-slate-300 mb-1">YOUR NAME / CHANNEL</label>
+              <input type="text" id="form-name" required placeholder="e.g. John Doe / @ModernFinance" class="form-input">
+            </div>
+            <div>
+              <label class="block text-xs font-mono text-slate-300 mb-1">PROJECT TYPE</label>
+              <select id="form-type" class="form-input">
+                <option value="Viral Short-Form (Reels/TikTok/Shorts)">Viral Short-Form (Reels / TikTok / Shorts)</option>
+                <option value="Long-Form Documentary">Long-Form Documentary (James Jani / Vox Style)</option>
+                <option value="3D & Motion Graphics Explainer">3D & Motion Graphics Explainer</option>
+                <option value="AI Video Pipeline & Automation">AI Video Pipeline & Automation</option>
+                <option value="Full Channel Retainer">Full Channel Retainer / Lead Editor</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-mono text-slate-300 mb-1">PROJECT DETAILS / SCRIPT LINK</label>
+              <textarea id="form-message" rows="3" required placeholder="Tell me about your footage, deadline, and target style..." class="form-input"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-full justify-center">
+              <span>Send Project Inquiry</span>
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+            </button>
+            <div id="form-status" class="hidden text-xs text-center font-mono mt-2 text-emerald-400"></div>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-900 bg-black/90 py-12 relative z-10 text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-white">BASIL SHAHZAD</span>
+        <span>•</span>
+        <span>Video Editor & Motion Designer</span>
+      </div>
+      <div>
+        <span>Crafted with cinema-grade precision • Hosted on GitHub Pages</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="#hero" class="hover:text-white transition-colors">Back to Top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FULLSCREEN THEATER MODAL -->
+  <div id="theater-modal" class="theater-modal hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-md">
+    <div class="theater-content relative w-full max-w-4xl max-h-[90vh] flex flex-col rounded-3xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl">
+      <!-- Top Bar -->
+      <div class="p-4 px-6 flex items-center justify-between border-b border-slate-800/80 bg-slate-900/60">
+        <div>
+          <span id="theater-badge" class="badge-category bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[10px]">Showcase</span>
+          <h3 id="theater-title" class="text-white font-bold text-base mt-1">Video Title</h3>
+        </div>
+        <button onclick="closeTheater()" class="p-2 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition-colors text-lg" aria-label="Close Theater">
+          ✕
+        </button>
+      </div>
+
+      <!-- Player Area -->
+      <div class="relative bg-black flex items-center justify-center min-h-[420px] max-h-[65vh] overflow-hidden">
+        <video id="theater-video" class="max-h-[65vh] w-auto max-w-full" controls autoplay playsinline></video>
+      </div>
+
+      <!-- Bottom Notes -->
+      <div class="p-4 px-6 bg-slate-900/90 border-t border-slate-800 flex flex-col gap-1 text-xs">
+        <span class="text-slate-400 font-mono text-[11px] uppercase tracking-wider">Technical Director Notes:</span>
+        <p id="theater-notes" class="text-slate-300 leading-relaxed"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

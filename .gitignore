@@ -1,0 +1,6 @@
+# Ignore raw source videos (optimized versions are inside assets/videos/)
+WhatsApp Video*.mp4
+temp_*
+*.log
+.DS_Store
+Thumbs.db
