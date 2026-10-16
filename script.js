@@ -1,19 +1,392 @@
 /**
- * Basil Shahzad — Portfolio Interactive Engine
- * Cinema Dark Luxury Aesthetic
+ * BASIL SHAHZAD — VIDEO & MOTION PORTFOLIO ENGINE
+ * Pure JavaScript • Zero External Dependencies • 100% Touch & Mobile Compatible
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   initAmbientCanvas();
-  initTicker();
-  initNavScroll();
-  initVideoCards();
-  initAudioSynthesis();
+  initMasterCinemaTheater();
+  initReelCards();
+  initMobileNav();
   initTheaterModal();
 });
 
 /* ==========================================================================
-   1. AMBIENT BACKGROUND CANVAS (Cinematic Particles / Floating Embers)
+   1. MASTER HERO CINEMA THEATER
+   ========================================================================== */
+const heroVideosData = [
+  {
+    title: 'Talking-Head Viral Hook & Retention Cut',
+    caption: 'Kinetic keyword subtitles, rotoscoped depth layering, pattern interrupt zooms & dynamic grading.',
+    src: 'assets/videos/short-form-retention.mp4',
+    poster: 'assets/posters/poster-short-form.jpg',
+    tag: 'SHORT-FORM VIRAL • 60 FPS',
+    stat: '88% RETENTION'
+  },
+  {
+    title: 'Expressive Kinetic Typography & Motion',
+    caption: 'Bold crimson/white vector character animation, custom bezier curves, and hard audio sync.',
+    src: 'assets/videos/kinetic-typography.mp4',
+    poster: 'assets/posters/poster-kinetic.jpg',
+    tag: '2D CHARACTER • MOTION DESIGN',
+    stat: '60 FPS MASTER'
+  },
+  {
+    title: 'The Blitz & Pearl Harbor Documentary',
+    caption: 'James Jani-grade 2.5D archival photo parallax, 3D camera projection, smoke & ember VFX.',
+    src: 'assets/videos/cinematic-documentary.mp4',
+    poster: 'assets/posters/poster-documentary.jpg',
+    tag: 'HISTORICAL DOCUMENTARY',
+    stat: '4K PRORES MASTER'
+  }
+];
+
+let activeHeroIndex = 0;
+
+function initMasterCinemaTheater() {
+  const video = document.getElementById('master-video');
+  const screenWrapper = document.getElementById('master-screen');
+  const bigPlayBtn = document.getElementById('master-big-play');
+  const playBtn = document.getElementById('master-play-btn');
+  const audioBtn = document.getElementById('master-audio-btn');
+  const hudAudioBtn = document.getElementById('master-hud-audio');
+  const fullBtn = document.getElementById('master-full-btn');
+  const scrubTrack = document.getElementById('master-scrub-track');
+  const scrubProgress = document.getElementById('master-scrub-progress');
+  const timeCounter = document.getElementById('master-time');
+  const hudTitle = document.getElementById('master-hud-title');
+  const hudCaption = document.getElementById('master-hud-caption');
+  const hudPill = document.getElementById('master-hud-pill');
+  const tabs = document.querySelectorAll('.tab-btn');
+
+  if (!video || !screenWrapper) return;
+
+  function loadHeroVideo(index, autoPlay = false) {
+    activeHeroIndex = index;
+    const data = heroVideosData[index];
+
+    tabs.forEach((tab, i) => {
+      tab.classList.toggle('active', i === index);
+    });
+
+    video.src = data.src;
+    video.poster = data.poster;
+    hudTitle.textContent = data.title;
+    hudCaption.textContent = data.caption;
+    hudPill.textContent = data.tag;
+
+    // Reset progress
+    scrubProgress.style.width = '0%';
+    timeCounter.textContent = '00:00 / 00:00';
+
+    if (autoPlay) {
+      pauseAllVideos(video);
+      video.play().then(() => {
+        screenWrapper.classList.add('playing');
+        playBtn.textContent = '⏸';
+      }).catch(() => {
+        // Fallback to muted if browser blocks audio autoplay
+        video.muted = true;
+        updateAudioIcons(true);
+        video.play().catch(() => {});
+      });
+    } else {
+      video.pause();
+      screenWrapper.classList.remove('playing');
+      playBtn.textContent = '▶';
+    }
+  }
+
+  // Tab click handlers
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', (e) => {
+      e.stopPropagation();
+      loadHeroVideo(index, true);
+    });
+  });
+
+  // Play / Pause Toggle
+  function togglePlay() {
+    if (video.paused) {
+      pauseAllVideos(video);
+      video.play().then(() => {
+        screenWrapper.classList.add('playing');
+        playBtn.textContent = '⏸';
+      }).catch(err => console.log('Playback error:', err));
+    } else {
+      video.pause();
+      screenWrapper.classList.remove('playing');
+      playBtn.textContent = '▶';
+    }
+  }
+
+  screenWrapper.addEventListener('click', (e) => {
+    // Avoid double trigger if clicking controls
+    if (e.target.closest('.hud-audio-btn') || e.target.closest('.theater-controls-bar')) return;
+    togglePlay();
+  });
+
+  if (bigPlayBtn) {
+    bigPlayBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      togglePlay();
+    });
+  }
+
+  if (playBtn) {
+    playBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      togglePlay();
+    });
+  }
+
+  // Audio Toggle
+  function updateAudioIcons(isMuted) {
+    const icon = isMuted ? '🔇' : '🔊';
+    if (audioBtn) audioBtn.textContent = icon;
+    if (hudAudioBtn) hudAudioBtn.textContent = icon;
+  }
+
+  function toggleAudio(e) {
+    if (e) e.stopPropagation();
+    video.muted = !video.muted;
+    updateAudioIcons(video.muted);
+    // If user interacts with sound, ensure playback continues
+    if (!video.muted && video.paused) {
+      video.play().then(() => {
+        screenWrapper.classList.add('playing');
+        playBtn.textContent = '⏸';
+      }).catch(() => {});
+    }
+  }
+
+  if (audioBtn) audioBtn.addEventListener('click', toggleAudio);
+  if (hudAudioBtn) hudAudioBtn.addEventListener('click', toggleAudio);
+
+  // Time & Progress Update
+  video.addEventListener('timeupdate', () => {
+    if (video.duration) {
+      const pct = (video.currentTime / video.duration) * 100;
+      scrubProgress.style.width = `${pct}%`;
+      timeCounter.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
+    }
+  });
+
+  video.addEventListener('ended', () => {
+    screenWrapper.classList.remove('playing');
+    playBtn.textContent = '▶';
+  });
+
+  // Scrubbing on click
+  if (scrubTrack) {
+    scrubTrack.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const rect = scrubTrack.getBoundingClientRect();
+      const pos = (e.clientX - rect.left) / rect.width;
+      if (video.duration) {
+        video.currentTime = pos * video.duration;
+      }
+    });
+  }
+
+  // Fullscreen Toggle
+  if (fullBtn) {
+    fullBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (video.requestFullscreen) {
+        video.requestFullscreen();
+      } else if (video.webkitRequestFullscreen) {
+        video.webkitRequestFullscreen();
+      } else if (video.webkitEnterFullscreen) {
+        video.webkitEnterFullscreen(); // iOS Safari
+      }
+    });
+  }
+}
+
+/* ==========================================================================
+   2. REEL SHOWCASE CARDS (PHONE MOCKUP PLAYERS)
+   ========================================================================== */
+function initReelCards() {
+  const cards = document.querySelectorAll('.phone-mockup-card');
+
+  cards.forEach(card => {
+    const screen = card.querySelector('.phone-screen');
+    const video = card.querySelector('.reel-video');
+    const playTrigger = card.querySelector('.reel-play-trigger');
+    const soundToggle = card.querySelector('.reel-sound-toggle');
+
+    if (!screen || !video) return;
+
+    function toggleReelPlay(e) {
+      if (e) e.stopPropagation();
+      if (video.paused) {
+        pauseAllVideos(video);
+        video.play().then(() => {
+          screen.classList.add('playing');
+        }).catch(err => {
+          // If unmuted playback fails, fallback to muted
+          video.muted = true;
+          if (soundToggle) soundToggle.textContent = '🔇';
+          video.play().then(() => screen.classList.add('playing')).catch(() => {});
+        });
+      } else {
+        video.pause();
+        screen.classList.remove('playing');
+      }
+    }
+
+    screen.addEventListener('click', (e) => {
+      if (e.target.closest('.reel-sound-toggle')) return;
+      toggleReelPlay(e);
+    });
+
+    if (playTrigger) {
+      playTrigger.addEventListener('click', toggleReelPlay);
+    }
+
+    if (soundToggle) {
+      soundToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        video.muted = !video.muted;
+        soundToggle.textContent = video.muted ? '🔇' : '🔊';
+        if (!video.muted && video.paused) {
+          pauseAllVideos(video);
+          video.play().then(() => screen.classList.add('playing')).catch(() => {});
+        }
+      });
+    }
+
+    video.addEventListener('ended', () => {
+      screen.classList.remove('playing');
+    });
+  });
+}
+
+/* Pause all other videos when one plays */
+function pauseAllVideos(currentVideo) {
+  document.querySelectorAll('video').forEach(v => {
+    if (v !== currentVideo && !v.paused) {
+      v.pause();
+      const parentScreen = v.closest('.screen-wrapper, .phone-screen');
+      if (parentScreen) parentScreen.classList.remove('playing');
+      const masterPlayBtn = document.getElementById('master-play-btn');
+      if (masterPlayBtn && v.id === 'master-video') masterPlayBtn.textContent = '▶';
+    }
+  });
+}
+
+function formatTime(seconds) {
+  if (isNaN(seconds)) return '00:00';
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
+
+/* ==========================================================================
+   3. CINEMA THEATER MODAL (EXPANDED INSPECT VIEW)
+   ========================================================================== */
+function initTheaterModal() {
+  const modal = document.getElementById('theater-modal');
+  const closeBtn = document.getElementById('modal-close-btn');
+  const modalVideo = document.getElementById('modal-video');
+
+  if (!modal) return;
+
+  function closeModal() {
+    modal.classList.remove('open');
+    if (modalVideo) {
+      modalVideo.pause();
+      modalVideo.src = '';
+    }
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) {
+      closeModal();
+    }
+  });
+}
+
+window.openModalTheater = function(src, title, desc) {
+  const modal = document.getElementById('theater-modal');
+  const modalVideo = document.getElementById('modal-video');
+  const modalTitle = document.getElementById('modal-title');
+  const modalDesc = document.getElementById('modal-desc');
+
+  if (!modal || !modalVideo) return;
+
+  pauseAllVideos(null);
+  modalVideo.src = src;
+  modalVideo.muted = false;
+  if (modalTitle) modalTitle.textContent = title;
+  if (modalDesc) modalDesc.textContent = desc;
+
+  modal.classList.add('open');
+  modalVideo.play().catch(() => {
+    modalVideo.muted = true;
+    modalVideo.play().catch(() => {});
+  });
+};
+
+/* ==========================================================================
+   4. MOBILE NAVIGATION
+   ========================================================================== */
+function initMobileNav() {
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-drawer');
+
+  if (!toggle || !menu) return;
+
+  toggle.addEventListener('click', () => {
+    menu.classList.toggle('hidden');
+  });
+
+  document.querySelectorAll('.drawer-link').forEach(link => {
+    link.addEventListener('click', () => {
+      menu.classList.add('hidden');
+    });
+  });
+
+  // Header scroll appearance
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (navbar) {
+      navbar.classList.toggle('scrolled', window.scrollY > 30);
+    }
+  });
+}
+
+/* ==========================================================================
+   5. CONTACT FORM HANDLER
+   ========================================================================== */
+window.handleContactSubmit = function(e) {
+  e.preventDefault();
+  const name = document.getElementById('c-name').value;
+  const type = document.getElementById('c-type').value;
+  const msg = document.getElementById('c-msg').value;
+  const status = document.getElementById('form-feedback');
+
+  const subject = encodeURIComponent(`Video Editing Inquiry [${type}] from ${name}`);
+  const body = encodeURIComponent(`Hi Basil,\n\nName / Channel: ${name}\nProject Type: ${type}\n\nProject Scope & Brief:\n${msg}\n\nLooking forward to your reply!`);
+
+  if (status) {
+    status.textContent = 'Opening your email client...';
+    status.style.color = '#10b981';
+  }
+
+  setTimeout(() => {
+    window.location.href = `mailto:zaeemrana168@gmail.com?subject=${subject}&body=${body}`;
+  }, 400);
+};
+
+/* ==========================================================================
+   6. AMBIENT BACKGROUND CANVAS
    ========================================================================== */
 function initAmbientCanvas() {
   const canvas = document.getElementById('ambient-canvas');
@@ -21,7 +394,7 @@ function initAmbientCanvas() {
   const ctx = canvas.getContext('2d');
   let width, height;
   let particles = [];
-  const particleCount = 45;
+  const particleCount = window.innerWidth < 768 ? 20 : 45;
 
   function resize() {
     width = canvas.width = window.innerWidth;
@@ -38,10 +411,10 @@ function initAmbientCanvas() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
       this.size = Math.random() * 2 + 0.5;
-      this.speedY = -(Math.random() * 0.4 + 0.1);
-      this.speedX = (Math.random() - 0.5) * 0.3;
+      this.speedY = -(Math.random() * 0.35 + 0.05);
+      this.speedX = (Math.random() - 0.5) * 0.25;
       this.opacity = Math.random() * 0.5 + 0.1;
-      this.color = Math.random() > 0.6 ? '#ff2a5f' : (Math.random() > 0.5 ? '#00f0ff' : '#ffb703');
+      this.color = Math.random() > 0.5 ? '#ff1e56' : '#00f0ff';
     }
     update() {
       this.y += this.speedY;
@@ -55,10 +428,7 @@ function initAmbientCanvas() {
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fillStyle = this.color;
       ctx.globalAlpha = this.opacity;
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = this.color;
       ctx.fill();
-      ctx.shadowBlur = 0;
     }
   }
 
@@ -66,351 +436,13 @@ function initAmbientCanvas() {
     particles.push(new Particle());
   }
 
-  function animate() {
+  function loop() {
     ctx.clearRect(0, 0, width, height);
     particles.forEach(p => {
       p.update();
       p.draw();
     });
-    requestAnimationFrame(animate);
+    requestAnimationFrame(loop);
   }
-  animate();
-}
-
-/* ==========================================================================
-   2. DYNAMIC TICKER ROTATION
-   ========================================================================== */
-function initTicker() {
-  const ticker = document.getElementById('ticker-text');
-  if (!ticker) return;
-
-  const phrases = [
-    'Viral Hook Psychology & Retention Cuts',
-    'James Jani-Grade Documentary Storytelling',
-    'Kinetic Typography & 2D Vector Animation',
-    'Blender 3D GIS & Terrain Bathymetry',
-    'Remotion & React Programmatic Data Motion',
-    'Automated CapCut Pipelines via Python'
-  ];
-
-  let phraseIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  let typingSpeed = 70;
-
-  function type() {
-    const current = phrases[phraseIndex];
-    if (isDeleting) {
-      ticker.textContent = current.substring(0, charIndex - 1);
-      charIndex--;
-      typingSpeed = 35;
-    } else {
-      ticker.textContent = current.substring(0, charIndex + 1);
-      charIndex++;
-      typingSpeed = 70;
-    }
-
-    if (!isDeleting && charIndex === current.length) {
-      isDeleting = true;
-      typingSpeed = 1800; // pause at peak
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      phraseIndex = (phraseIndex + 1) % phrases.length;
-      typingSpeed = 400;
-    }
-
-    setTimeout(type, typingSpeed);
-  }
-  type();
-}
-
-/* ==========================================================================
-   3. NAVIGATION SCROLL & ACTIVE TRACKING
-   ========================================================================== */
-function initNavScroll() {
-  const nav = document.getElementById('main-nav');
-  const links = document.querySelectorAll('.nav-link');
-  const sections = document.querySelectorAll('section[id]');
-  const mobileBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-
-  if (mobileBtn && mobileMenu) {
-    mobileBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-    document.querySelectorAll('.mobile-nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-      });
-    });
-  }
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
-    }
-
-    let current = '';
-    sections.forEach(section => {
-      const top = section.offsetTop - 120;
-      if (window.scrollY >= top) {
-        current = section.getAttribute('id');
-      }
-    });
-
-    links.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === `#${current}`) {
-        link.classList.add('active');
-      }
-    });
-  });
-}
-
-/* ==========================================================================
-   4. SYNTHESIZED WEB AUDIO EFFECTS
-   ========================================================================== */
-let audioCtx = null;
-let sfxEnabled = true;
-
-function initAudioSynthesis() {
-  const toggle = document.getElementById('sfx-toggle');
-  if (toggle) {
-    toggle.addEventListener('click', () => {
-      sfxEnabled = !sfxEnabled;
-      toggle.querySelector('.sound-icon').textContent = sfxEnabled ? '🔊' : '🔇';
-      toggle.querySelector('.sound-text').textContent = sfxEnabled ? 'SFX: ON' : 'SFX: OFF';
-      toggle.style.borderColor = sfxEnabled ? 'rgba(255, 42, 95, 0.4)' : 'rgba(255, 255, 255, 0.1)';
-      if (sfxEnabled) playBeep(650, 0.05);
-    });
-  }
-
-  document.querySelectorAll('.btn, .tool-chip, .contact-card').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      if (sfxEnabled) playHoverSound();
-    });
-    el.addEventListener('click', () => {
-      if (sfxEnabled) playClickSound();
-    });
-  });
-}
-
-function getAudioContext() {
-  if (!audioCtx) {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (AudioContext) audioCtx = new AudioContext();
-  }
-  if (audioCtx && audioCtx.state === 'suspended') {
-    audioCtx.resume();
-  }
-  return audioCtx;
-}
-
-function playHoverSound() {
-  const ctx = getAudioContext();
-  if (!ctx) return;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(420, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(740, ctx.currentTime + 0.04);
-  gain.gain.setValueAtTime(0.015, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.04);
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.start();
-  osc.stop(ctx.currentTime + 0.04);
-}
-
-function playClickSound() {
-  const ctx = getAudioContext();
-  if (!ctx) return;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = 'triangle';
-  osc.frequency.setValueAtTime(580, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(220, ctx.currentTime + 0.08);
-  gain.gain.setValueAtTime(0.04, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.08);
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.start();
-  osc.stop(ctx.currentTime + 0.08);
-}
-
-function playBeep(freq, dur) {
-  const ctx = getAudioContext();
-  if (!ctx) return;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(freq, ctx.currentTime);
-  gain.gain.setValueAtTime(0.03, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + dur);
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.start();
-  osc.stop(ctx.currentTime + dur);
-}
-
-/* ==========================================================================
-   5. VIDEO CARDS & HOVER PREVIEW CONTROLS
-   ========================================================================== */
-function initVideoCards() {
-  const cards = document.querySelectorAll('.video-showcase-card');
-
-  cards.forEach(card => {
-    const wrapper = card.querySelector('.video-wrapper');
-    const video = card.querySelector('.portfolio-video');
-    const progressFill = card.querySelector('.progress-fill');
-
-    if (!wrapper || !video) return;
-
-    // Hover play / pause
-    wrapper.addEventListener('mouseenter', () => {
-      wrapper.classList.add('is-playing');
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {});
-      }
-    });
-
-    wrapper.addEventListener('mouseleave', () => {
-      wrapper.classList.remove('is-playing');
-      video.pause();
-    });
-
-    // Update progress bar
-    video.addEventListener('timeupdate', () => {
-      if (progressFill && video.duration) {
-        const pct = (video.currentTime / video.duration) * 100;
-        progressFill.style.width = `${pct}%`;
-      }
-    });
-  });
-
-  // IntersectionObserver to pause videos when scrolled out
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      const v = entry.target;
-      if (!entry.isIntersecting && !v.paused) {
-        v.pause();
-      }
-    });
-  }, { threshold: 0.25 });
-
-  document.querySelectorAll('video').forEach(v => observer.observe(v));
-}
-
-// Global audio toggle for hero video
-function toggleHeroSound(btn) {
-  const heroVideo = document.getElementById('hero-preview-video');
-  if (!heroVideo) return;
-  heroVideo.muted = !heroVideo.muted;
-  btn.querySelector('.icon').textContent = heroVideo.muted ? '🔇' : '🔊';
-  btn.style.background = heroVideo.muted ? 'rgba(0,0,0,0.7)' : '#ff2a5f';
-}
-
-// Card level audio toggle
-function toggleCardAudio(btn, event) {
-  if (event) event.stopPropagation();
-  const card = btn.closest('.video-showcase-card');
-  const video = card.querySelector('.portfolio-video');
-  if (!video) return;
-
-  video.muted = !video.muted;
-  btn.textContent = video.muted ? '🔇' : '🔊';
-  btn.style.background = video.muted ? 'rgba(0,0,0,0.6)' : '#ff2a5f';
-
-  if (!video.muted) {
-    video.play();
-    card.querySelector('.video-wrapper').classList.add('is-playing');
-  }
-}
-
-/* ==========================================================================
-   6. CINEMA THEATER MODAL
-   ========================================================================== */
-function initTheaterModal() {
-  const modal = document.getElementById('theater-modal');
-  if (!modal) return;
-
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      closeTheater();
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeTheater();
-    } else if (e.code === 'Space' && !modal.classList.contains('hidden')) {
-      const vid = document.getElementById('theater-video');
-      if (vid) {
-        e.preventDefault();
-        vid.paused ? vid.play() : vid.pause();
-      }
-    } else if (e.key.toLowerCase() === 'm' && !modal.classList.contains('hidden')) {
-      const vid = document.getElementById('theater-video');
-      if (vid) vid.muted = !vid.muted;
-    }
-  });
-}
-
-function openTheater(videoSrc, title, badge, notes) {
-  const modal = document.getElementById('theater-modal');
-  const vid = document.getElementById('theater-video');
-  const titleEl = document.getElementById('theater-title');
-  const badgeEl = document.getElementById('theater-badge');
-  const notesEl = document.getElementById('theater-notes');
-
-  if (!modal || !vid) return;
-
-  vid.src = videoSrc;
-  vid.muted = false;
-  titleEl.textContent = title;
-  badgeEl.textContent = badge;
-  notesEl.textContent = notes;
-
-  modal.classList.remove('hidden');
-  vid.play().catch(() => {
-    vid.muted = true;
-    vid.play();
-  });
-
-  if (sfxEnabled) playClickSound();
-}
-
-function closeTheater() {
-  const modal = document.getElementById('theater-modal');
-  const vid = document.getElementById('theater-video');
-  if (modal) modal.classList.add('hidden');
-  if (vid) {
-    vid.pause();
-    vid.src = '';
-  }
-}
-
-/* ==========================================================================
-   7. CONTACT FORM SUBMISSION
-   ========================================================================== */
-function handleContactSubmit(e) {
-  e.preventDefault();
-  const name = document.getElementById('form-name').value;
-  const type = document.getElementById('form-type').value;
-  const msg = document.getElementById('form-message').value;
-  const status = document.getElementById('form-status');
-
-  status.classList.remove('hidden');
-  status.textContent = 'Preparing email dispatch...';
-
-  const subject = encodeURIComponent(`Video Inquiry: ${type} - from ${name}`);
-  const body = encodeURIComponent(`Hi Basil,\n\nMy name: ${name}\nProject Type: ${type}\n\nProject Brief:\n${msg}\n\nLooking forward to hearing from you!`);
-
-  setTimeout(() => {
-    window.location.href = `mailto:zaeemrana168@gmail.com?subject=${subject}&body=${body}`;
-    status.textContent = '✓ Email client opened! Looking forward to collaborating.';
-  }, 400);
+  loop();
 }
